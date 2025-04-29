@@ -1,0 +1,36 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"  crossorigin="anonymous"> 
+
+<div [ngStyle]="{ 'background-color': backgroundColor }" [ngClass]="pageClass">
+    <div class="game-container d-flex flex-column justify-content-center align-items-center" >
+        <div *ngIf="gameMessage" class="alert alert-info" role="alert" style="width: 18rem;">
+            {{ gameMessage }}
+        </div>
+        <div class="card" style="width: 18rem; height: 18rem;">
+            <h1>Wordle</h1>
+        
+            <div *ngIf="!gameWon">
+                <p>Guess the wordle!</p>
+                <form (ngSubmit)="enterGuess()">
+                    <input type="text" [(ngModel)]="userGuess" name="guessInput" required />
+                    <button type="submit">Guess</button>
+                </form>
+            </div>
+    
+            <div *ngIf="gameWon">
+                <button (click)="startNewGame()">Start new game</button>
+            </div>
+    
+            <h4 *ngIf="guesses.length > 0">Previous Guesses:</h4>
+            <ul>
+                <li *ngFor="let g of guesses" [ngClass]="{ 'good-guess': g.correctPlaces >= 2, 'bad-guess': g.correctPlaces < 2 }">
+                    "{{ g.word }}" → {{ g.correctChars }} chars correct, {{ g.correctPlaces }} in correct place,
+                    {{ g.lengthHint }}
+                </li>
+            </ul>
+            <div class="text-center">
+                <button (click)="startNewGame()" style="width:10rem;" id="startNewBtn">Start new game</button>
+            </div>
+        </div>
+        
+    </div>
+</div>
